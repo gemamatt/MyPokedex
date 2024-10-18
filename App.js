@@ -5,6 +5,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Header from './src/components/Header'; 
 import Home from './src/components/Home'; 
 import PokemonList from './src/components/PokemonList';
+import PokemonDetail from './src/components/PokemonDetail';
 import styles from './src/styles/AppStyles';
 
 const Stack = createNativeStackNavigator(); 
@@ -13,7 +14,7 @@ export default function App() {
   return (
     <NavigationContainer>
       <View style={styles.container}>
-        <Header title="My Pokédex" /> {}
+        <Header title="My Pokédex" />
         <Stack.Navigator>
           <Stack.Screen 
             name="Home" 
@@ -23,7 +24,12 @@ export default function App() {
           <Stack.Screen 
             name="PokemonList" 
             component={PokemonList} 
-            options={{ headerShown: false }}
+            options={{ headerShown: false }} 
+          />
+          <Stack.Screen 
+            name="PokemonDetail" 
+            component={PokemonDetail} 
+            options={{ title: 'Detalles del Pokémon' }} 
           />
         </Stack.Navigator>
       </View>

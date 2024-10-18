@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from 'react';
-import { View, Text, FlatList, Image, ActivityIndicator, StyleSheet } from 'react-native';
+import React, { useEffect, useState } from 'react'; 
+import { View, Text, FlatList, Image, ActivityIndicator, StyleSheet, TouchableOpacity } from 'react-native';
 import { getPokemonList, getPokemonDetails } from '../services/Api.js';
 import styles from '../styles/PokemonListStyles.js';
-  
-  const PokemonList = () => {
+
+const PokemonList = ({ navigation }) => { 
   const [pokemonData, setPokemonData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -22,6 +22,7 @@ import styles from '../styles/PokemonListStyles.js';
               id: details.id,
               name: details.name,
               imageUrl: details.sprites.front_default,
+              url: pokemon.url, 
             };
           })
         );
@@ -53,10 +54,12 @@ import styles from '../styles/PokemonListStyles.js';
       data={pokemonData}
       keyExtractor={(item) => item.id.toString()}
       renderItem={({ item }) => (
-        <View style={styles.card}>
-          <Image source={{ uri: item.imageUrl }} style={styles.image} />
-          <Text style={styles.name}>{item.name}</Text>
-        </View>
+        <TouchableOpacity onPress={() => navigation.navigate('PokemonDetail', { url: item.url })}>
+          <View style={styles.card}>
+            <Image source={{ uri: item.imageUrl }} style={styles.image} />
+            <Text style={styles.name}>{item.name}</Text>
+          </View>
+        </TouchableOpacity>
       )}
     />
   );
