@@ -22,7 +22,10 @@ const PokemonList = ({ navigation }) => {
               id: details.id,
               name: details.name,
               imageUrl: details.sprites.front_default,
-              url: pokemon.url, 
+              url: pokemon.url,
+              types: details.types.map(typeInfo => typeInfo.type.name).join(', '),
+              abilities: details.abilities.map(abilityInfo => abilityInfo.ability.name).join(', '),
+              number: details.id
             };
           })
         );
@@ -58,6 +61,9 @@ const PokemonList = ({ navigation }) => {
           <View style={styles.card}>
             <Image source={{ uri: item.imageUrl }} style={styles.image} />
             <Text style={styles.name}>{item.name}</Text>
+            <Text style={styles.detail}>Número: {item.number}</Text> {}
+            <Text style={styles.detail}>Tipo: {item.types}</Text> {}
+            <Text style={styles.detail}>Habilidades: {item.abilities}</Text> {}
           </View>
         </TouchableOpacity>
       )}
