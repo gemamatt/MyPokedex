@@ -87,7 +87,8 @@ const PokemonList = ({ navigation, lang }) => {
       keyExtractor={(item) => item.id.toString()}
       renderItem={({ item }) => (
         <TouchableOpacity onPress={() => navigation.navigate('PokemonDetail', { url: item.url })}>
-          <View style={styles.card}>
+         <view style={styles.container}>
+         <View style={styles.card}>
             <Text style={styles.name}>{item.name}</Text>
             <Text style={styles.number}>{translations[lang].number} {item.number}</Text> 
             <Image source={{ uri: item.imageUrl }} style={styles.image} />
@@ -98,6 +99,7 @@ const PokemonList = ({ navigation, lang }) => {
               <Text style={{ fontWeight: 'bold' }}>{translations[lang].ability}:</Text> {item.abilities}
             </Text>
           </View>
+         </view>
         </TouchableOpacity>
       )}
       onEndReached={loadMorePokemon}

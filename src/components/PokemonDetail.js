@@ -60,15 +60,12 @@ const PokemonDetail = ({ route, lang }) => {
     fetchPokemonDetails();
   }, [url, lang, navigation]);
 
-  // Función para extraer evoluciones
   const extractEvolutions = async (evolutionData) => {
     let evolutions = [];
     let current = evolutionData.chain;
 
     while (current) {
       const { species, evolves_to } = current;
-
-      // Obtener datos completos del Pokémon para obtener la imagen
       const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${species.name}`);
       const pokemonData = await response.json();
 
@@ -117,6 +114,7 @@ const PokemonDetail = ({ route, lang }) => {
   const imageUri = sprites?.other?.["official-artwork"]?.front_default || sprites?.front_default || 'https://via.placeholder.com/150';
 
   return (
+    <View style={styles.container}>
     <View style={styles.card}>
       <Text style={styles.number}>#{id}</Text>
       <Image source={{ uri: imageUri }} style={styles.image} />
@@ -134,10 +132,10 @@ const PokemonDetail = ({ route, lang }) => {
         <Text style={{ fontWeight: 'bold' }}>{translations[lang].height.toUpperCase()}:</Text> {height || translations[lang].unavailable}
       </Text>
 
-      {/* Agregar la leyenda "Evoluciones" */}
+      {}
       <Text style={styles.evolutionsTitle}>{translations[lang].evolutions}</Text>
       
-      {/* Dock Component */}
+      {}
       <Dock>
         {evolutions.map((evo) => (
           <DockItem
@@ -148,6 +146,8 @@ const PokemonDetail = ({ route, lang }) => {
         ))}
       </Dock>
     </View>
+    </View>
+
   );
 };
 

@@ -1,6 +1,10 @@
 import { StyleSheet } from 'react-native';
 
 const styles = StyleSheet.create({
+     container: {
+      flex: 1,
+      backgroundColor: '#FFFFFF',
+    }, 
     card: {
       padding: 10,
       margin: 10,
@@ -18,6 +22,7 @@ const styles = StyleSheet.create({
       fontSize: 30,
       fontWeight: 'bold',
       marginTop: 0,
+      color: '#202f3a',
     },
     number: {
       fontSize: 20,
@@ -33,6 +38,7 @@ const styles = StyleSheet.create({
       marginTop: 0,
       textAlign: 'left',
       width: '100%', 
+      color: '#202f3a',
     },
     errorContainer: {
       flex: 1,
