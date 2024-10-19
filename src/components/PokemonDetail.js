@@ -36,7 +36,7 @@ const PokemonDetail = ({ route, lang, toggleLanguage }) => {
         });
 
         navigation.setOptions({
-          title: details.name || translations[lang].nameUnavailable,
+          title: details.name?.toUpperCase() || translations[lang].nameUnavailable,
           headerTitleStyle: styles.headerTitle,
           headerTitleAlign: 'center',
         });

@@ -10,6 +10,12 @@ const styles = StyleSheet.create({
     borderWidth: 1.5,
     borderColor: '#d6dbdf',
   },
+  headerTitle: {
+    fontSize: 25,
+    fontWeight: 'bold', 
+    color: '#000000',
+    textAlign: 'center',
+  },
   image: {
     width: 380,
     height: 380,
