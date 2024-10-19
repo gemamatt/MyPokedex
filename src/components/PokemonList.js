@@ -9,13 +9,16 @@ const PokemonList = ({ navigation, lang }) => {
   const [pokemonData, setPokemonData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [page, setPage] = useState(0);
+  const [isFetchingMore, setIsFetchingMore] = useState(false);
 
-  const fetchPokemon = async () => {
-    setLoading(true);
+  const fetchPokemon = async (page) => {
+    if (page === 0) setLoading(true);
     setError(null);
 
     try {
-      const pokemonList = await getPokemonList(5, 0);
+      const limit = 20;
+      const pokemonList = await getPokemonList(limit, page * limit);
       const pokemonDetails = await Promise.all(
         pokemonList.map(async (pokemon) => {
           const details = await getPokemonDetails(pokemon.url);
@@ -39,20 +42,34 @@ const PokemonList = ({ navigation, lang }) => {
           };
         })
       );
-      setPokemonData(pokemonDetails);
+      
+      if (page === 0) {
+        setPokemonData(pokemonDetails);
+      } else {
+        setPokemonData(prev => [...prev, ...pokemonDetails]);
+      }
+
     } catch (err) {
       const errorMessage = translations[lang]?.errorLoading || translations['es'].errorLoading;
       setError(errorMessage);
     } finally {
       setLoading(false);
+      setIsFetchingMore(false);
+    }
+  };
+
+  const loadMorePokemon = () => {
+    if (!isFetchingMore) {
+      setIsFetchingMore(true);
+      setPage(prevPage => prevPage + 1);
     }
   };
 
   useEffect(() => {
-    fetchPokemon();
-  }, [lang]); 
+    fetchPokemon(page);
+  }, [lang, page]); 
 
-  if (loading) {
+  if (loading && page === 0) {
     return <ActivityIndicator size="large" color="#0000ff" />;
   }
 
@@ -83,6 +100,9 @@ const PokemonList = ({ navigation, lang }) => {
           </View>
         </TouchableOpacity>
       )}
+      onEndReached={loadMorePokemon}
+      onEndReachedThreshold={0.5}
+      ListFooterComponent={isFetchingMore ? <ActivityIndicator size="small" color="#0000ff" /> : null}
     />
   );
 };
