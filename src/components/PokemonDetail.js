@@ -3,13 +3,15 @@ import { View, Text, Image, ActivityIndicator } from 'react-native';
 import { getPokemonDetails } from '../services/Api'; 
 import styles from '../styles/PokemonDetailStyles';
 import translations from '../services/translations';
-import { fetchAbilityTranslation, fetchTypeTranslation } from '../services/translationUtils'; // Importa las funciones
+import { fetchAbilityTranslation, fetchTypeTranslation } from '../services/translationUtils';
+import { useNavigation } from '@react-navigation/native';
 
 const PokemonDetail = ({ route, lang, toggleLanguage }) => {
   const { url } = route.params; 
   const [pokemon, setPokemon] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const navigation = useNavigation();
 
   useEffect(() => {
     const fetchPokemonDetails = async () => {
@@ -18,7 +20,6 @@ const PokemonDetail = ({ route, lang, toggleLanguage }) => {
 
       try {
         const details = await getPokemonDetails(url);
-        console.log('Detalles del Pokémon:', details);
 
         const translatedAbilities = await Promise.all(
           details.abilities.map(ability => fetchAbilityTranslation(ability.ability.url, lang))
@@ -33,6 +34,13 @@ const PokemonDetail = ({ route, lang, toggleLanguage }) => {
           abilities: translatedAbilities,
           types: translatedTypes
         });
+
+        navigation.setOptions({
+          title: details.name || translations[lang].nameUnavailable,
+          headerTitleStyle: styles.headerTitle,
+          headerTitleAlign: 'center',
+        });
+
       } catch (err) {
         console.error(err);
         setError(translations[lang].errorLoading);
@@ -42,7 +50,7 @@ const PokemonDetail = ({ route, lang, toggleLanguage }) => {
     };
 
     fetchPokemonDetails();
-  }, [url, lang]);
+  }, [url, lang, navigation]);
 
   if (loading) {
     return <ActivityIndicator size="large" color="#0000ff" />;
@@ -74,15 +82,23 @@ const PokemonDetail = ({ route, lang, toggleLanguage }) => {
   const imageUri = sprites?.other?.["official-artwork"]?.front_default || sprites?.front_default || 'https://via.placeholder.com/150';
 
   return (
-    <View style={styles.container}>
+    <View style={styles.card}>
+      <Text style={styles.number}>#{id}</Text>
       <Image source={{ uri: imageUri }} style={styles.image} />
-      <Text style={styles.name}>{name || translations[lang].nameUnavailable} (#{id})</Text>
-      <Text style={styles.description}>{translations[lang].description}: {flavorText}</Text>
-      <Text style={styles.type}>{translations[lang].type}: {typeNames}</Text>
-      <Text style={styles.ability}>{translations[lang].ability}: {abilityNames}</Text>
-      <Text style={styles.weight}>{translations[lang].weight}: {weight || translations[lang].unavailable}</Text>
-      <Text style={styles.height}>{translations[lang].height}: {height || translations[lang].unavailable}</Text>
-    </View>
+      <Text style={styles.description}>{translations[lang].description}{flavorText}</Text>
+      <Text style={styles.detail}>
+      <Text style={{ fontWeight: 'bold' }}>{translations[lang].type}:</Text> {typeNames}
+      </Text>
+      <Text style={styles.detail}>
+  <Text style={{ fontWeight: 'bold' }}>{translations[lang].ability}:</Text> {abilityNames}
+      </Text>
+      <Text style={styles.detail}>
+  <Text style={{ fontWeight: 'bold' }}>{translations[lang].weight}:</Text> {weight || translations[lang].unavailable}
+      </Text>
+      <Text style={styles.detail}>
+  <Text style={{ fontWeight: 'bold' }}>{translations[lang].height}:</Text> {height || translations[lang].unavailable}
+      </Text>
+</View>
   );
 };
 
