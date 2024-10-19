@@ -3,17 +3,24 @@ import { StyleSheet } from 'react-native';
 const styles = StyleSheet.create({
   header: {
     width: '100%',
-    backgroundColor: '#B2BEB5',
+    backgroundColor: '#DC143C',
     padding: 15,
-    alignItems: 'center',
-    justifyContent: 'center',
-    borderBottomWidth: 1,
-    borderBottomColor: '#808080',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center', 
+    borderBottomWidth: 8,
+    borderBottomColor: '#000000',
   },
   headerText: {
-    fontSize: 20,
+    marginTop:30,
+    fontSize: 25,
     fontWeight: 'bold',
-    color:'#36454F',
+    color:'#000000',
+  },
+  translateImage: {
+    marginTop:30,
+    width: 50,
+    height: 50,
   },
 });
 

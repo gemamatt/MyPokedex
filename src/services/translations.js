@@ -2,6 +2,7 @@ const translations = {
   es: {
     appTitle: "My Pokédex",
     welcome: '¡VAMOS!',
+    number: "#",
     pokemonDetail: "Detalles del Pokémon",
     description: "Descripción",
     type: "Tipo",
@@ -16,6 +17,7 @@ const translations = {
   en: {
     appTitle: "My Pokédex",
     welcome: "Let's Go!",
+    number: "#",
     pokemonDetail: "Pokemon Details",
     description: "Description",
     type: "Type",

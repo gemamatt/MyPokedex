@@ -71,11 +71,15 @@ const PokemonList = ({ navigation, lang }) => {
       renderItem={({ item }) => (
         <TouchableOpacity onPress={() => navigation.navigate('PokemonDetail', { url: item.url })}>
           <View style={styles.card}>
-            <Image source={{ uri: item.imageUrl }} style={styles.image} />
             <Text style={styles.name}>{item.name}</Text>
-            <Text style={styles.detail}>{translations[lang].number}: {item.number}</Text> 
-            <Text style={styles.detail}>{translations[lang].type}: {item.types}</Text> 
-            <Text style={styles.detail}>{translations[lang].ability}: {item.abilities}</Text> 
+            <Text style={styles.number}>{translations[lang].number} {item.number}</Text> 
+            <Image source={{ uri: item.imageUrl }} style={styles.image} />
+            <Text style={styles.detail}>
+              <Text style={{ fontWeight: 'bold' }}>{translations[lang].type}:</Text> {item.types}
+            </Text>
+            <Text style={styles.detail}>
+              <Text style={{ fontWeight: 'bold' }}>{translations[lang].ability}:</Text> {item.abilities}
+            </Text>
           </View>
         </TouchableOpacity>
       )}
