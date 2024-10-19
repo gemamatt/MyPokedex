@@ -1,14 +1,17 @@
 import React, { useEffect, useState } from 'react';  
 import { View, Text, Image, ActivityIndicator } from 'react-native';
-import { getPokemonDetails } from '../services/Api'; 
+import { getPokemonDetails, getEvolutionChain } from '../services/Api'; 
 import styles from '../styles/PokemonDetailStyles';
 import translations from '../services/translations';
 import { fetchAbilityTranslation, fetchTypeTranslation } from '../services/translationUtils';
 import { useNavigation } from '@react-navigation/native';
+import Dock from '../components/Dock';
+import DockItem from '../components/DockItem';
 
-const PokemonDetail = ({ route, lang, toggleLanguage }) => {
+const PokemonDetail = ({ route, lang }) => {
   const { url } = route.params; 
   const [pokemon, setPokemon] = useState(null);
+  const [evolutions, setEvolutions] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const navigation = useNavigation();
@@ -29,11 +32,16 @@ const PokemonDetail = ({ route, lang, toggleLanguage }) => {
           details.types.map(typeInfo => fetchTypeTranslation(typeInfo.type.url, lang))
         );
 
+        // Fetch evolutions
+        const evolutionData = await getEvolutionChain(details.species.url);
+        const evolutionsList = await extractEvolutions(evolutionData);
+
         setPokemon({
           ...details,
           abilities: translatedAbilities,
-          types: translatedTypes
+          types: translatedTypes,
         });
+        setEvolutions(evolutionsList);
 
         navigation.setOptions({
           title: details.name?.toUpperCase() || translations[lang].nameUnavailable,
@@ -51,6 +59,33 @@ const PokemonDetail = ({ route, lang, toggleLanguage }) => {
 
     fetchPokemonDetails();
   }, [url, lang, navigation]);
+
+  // Función para extraer evoluciones
+  const extractEvolutions = async (evolutionData) => {
+    let evolutions = [];
+    let current = evolutionData.chain;
+
+    while (current) {
+      const { species, evolves_to } = current;
+
+      // Obtener datos completos del Pokémon para obtener la imagen
+      const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${species.name}`);
+      const pokemonData = await response.json();
+
+      evolutions.push({ 
+        name: species.name, 
+        url: `https://pokeapi.co/api/v2/pokemon/${species.name}`,
+        image: pokemonData.sprites.other["official-artwork"].front_default || pokemonData.sprites.front_default
+      });
+
+      current = evolves_to[0];
+    }
+    return evolutions;
+  };
+
+  const navigateToPokemonDetail = (url) => {
+    navigation.push('PokemonDetail', { url, lang });
+  };
 
   if (loading) {
     return <ActivityIndicator size="large" color="#0000ff" />;
@@ -98,6 +133,20 @@ const PokemonDetail = ({ route, lang, toggleLanguage }) => {
       <Text style={styles.detail}>
         <Text style={{ fontWeight: 'bold' }}>{translations[lang].height.toUpperCase()}:</Text> {height || translations[lang].unavailable}
       </Text>
+
+      {/* Agregar la leyenda "Evoluciones" */}
+      <Text style={styles.evolutionsTitle}>{translations[lang].evolutions}</Text>
+      
+      {/* Dock Component */}
+      <Dock>
+        {evolutions.map((evo) => (
+          <DockItem
+            key={evo.name}
+            source={evo.image}
+            onPress={() => navigateToPokemonDetail(evo.url)}
+          />
+        ))}
+      </Dock>
     </View>
   );
 };
