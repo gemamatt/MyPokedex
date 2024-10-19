@@ -27,3 +27,17 @@ export const getPokemonDetails = async (url) => {
   }
 };
 
+export const getEvolutionChain = async (speciesUrl) => {
+  try {
+    const speciesResponse = await fetch(speciesUrl);
+    const speciesData = await speciesResponse.json();
+    const evolutionResponse = await fetch(speciesData.evolution_chain.url);
+    const evolutionData = await evolutionResponse.json();
+    return evolutionData;
+  } catch (error) {
+    console.error("Error fetching evolution chain:", error);
+    return null;
+  }
+};
+
+

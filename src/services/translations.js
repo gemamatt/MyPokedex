@@ -13,6 +13,7 @@ const translations = {
     nameUnavailable: "Nombre no disponible",
     errorLoading: "Error al cargar los detalles del Pokémon.",
     noDetails: "No se encontraron detalles del Pokémon.",
+    evolutions: 'Evoluciones',
   },
   en: {
     appTitle: "My Pokédex",
@@ -28,6 +29,7 @@ const translations = {
     nameUnavailable: "Name not available",
     errorLoading: "Error loading Pokémon details.",
     noDetails: "No Pokémon details found.",
+    evolutions: 'Evolutions',
   },
 };
 

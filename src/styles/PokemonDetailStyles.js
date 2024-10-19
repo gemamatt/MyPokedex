@@ -7,7 +7,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#eaeded',
     borderRadius: 10,
     alignItems: 'center',
-    borderWidth: 1.5,
+    borderWidth: 2,
     borderColor: '#d6dbdf',
   },
   headerTitle: {
@@ -17,8 +17,8 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   image: {
-    width: 380,
-    height: 380,
+    width: 300,
+    height: 300,
   },
   number: {
     fontSize: 20,
@@ -29,12 +29,13 @@ const styles = StyleSheet.create({
     right: 10,
   },
   description: {
-    fontSize: 20,
+    fontSize: 18,
     fontWeight: 'normal',
     marginTop: 0,
     textAlign: 'center',
     width: '100%', 
     marginBottom: 18,
+    color: '#202f3a',
   },
   detail: {
     fontSize: 15,
@@ -43,6 +44,15 @@ const styles = StyleSheet.create({
     textAlign: 'left',
     width: '100%', 
     marginTop: 5,
+    color: '#202f3a',
+  },
+  evolutionsTitle: {
+    marginTop: 30,
+    fontSize: 20,
+    fontWeight: 'bold',
+    marginVertical: 0,
+    textAlign: 'center',
+    color: '#778d9e',
   },
   errorContainer: {
     flex: 1,
