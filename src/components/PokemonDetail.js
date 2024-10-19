@@ -87,18 +87,18 @@ const PokemonDetail = ({ route, lang, toggleLanguage }) => {
       <Image source={{ uri: imageUri }} style={styles.image} />
       <Text style={styles.description}>{translations[lang].description}{flavorText}</Text>
       <Text style={styles.detail}>
-      <Text style={{ fontWeight: 'bold' }}>{translations[lang].type}:</Text> {typeNames}
+        <Text style={{ fontWeight: 'bold' }}>{translations[lang].type.toUpperCase()}:</Text> {typeNames}
       </Text>
       <Text style={styles.detail}>
-  <Text style={{ fontWeight: 'bold' }}>{translations[lang].ability}:</Text> {abilityNames}
+        <Text style={{ fontWeight: 'bold' }}>{translations[lang].ability.toUpperCase()}:</Text> {abilityNames}
       </Text>
       <Text style={styles.detail}>
-  <Text style={{ fontWeight: 'bold' }}>{translations[lang].weight}:</Text> {weight || translations[lang].unavailable}
+        <Text style={{ fontWeight: 'bold' }}>{translations[lang].weight.toUpperCase()}:</Text> {weight || translations[lang].unavailable}
       </Text>
       <Text style={styles.detail}>
-  <Text style={{ fontWeight: 'bold' }}>{translations[lang].height}:</Text> {height || translations[lang].unavailable}
+        <Text style={{ fontWeight: 'bold' }}>{translations[lang].height.toUpperCase()}:</Text> {height || translations[lang].unavailable}
       </Text>
-</View>
+    </View>
   );
 };
 
