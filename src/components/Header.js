@@ -1,15 +1,18 @@
 import React from 'react';
-import { View, Text, Button } from 'react-native';
+import { View, Text, TouchableOpacity, Image } from 'react-native';
 import styles from '../styles/HeaderStyles';
 
+const translateImage = require('../../assets/translate.png');
 const Header = ({ title, toggleLanguage, lang }) => {
   return (
     <View style={styles.header}>
       <Text style={styles.headerText}>{title}</Text>
-      <Button
-        title={lang === 'es' ? 'Spanish' : 'Inglés' }
-        onPress={toggleLanguage}
-      />
+      <TouchableOpacity onPress={toggleLanguage} style={styles.button}>
+        <Image 
+          source={translateImage} 
+          style={styles.translateImage}
+        />
+      </TouchableOpacity>
     </View>
   );
 };
