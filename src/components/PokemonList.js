@@ -3,7 +3,7 @@ import { View, Text, FlatList, Image, ActivityIndicator, TouchableOpacity } from
 import { getPokemonList, getPokemonDetails } from '../services/Api.js';
 import styles from '../styles/PokemonListStyles.js';
 import translations from '../services/translations.js'; 
-import { fetchAbilityTranslation, fetchTypeTranslation } from '../services/translationUtils'; // Importa las funciones
+import { fetchAbilityTranslation, fetchTypeTranslation } from '../services/translationUtils';
 
 const PokemonList = ({ navigation, lang }) => { 
   const [pokemonData, setPokemonData] = useState([]);
@@ -30,7 +30,7 @@ const PokemonList = ({ navigation, lang }) => {
 
           return {
             id: details.id,
-            name: details.name,
+            name: details.name.toUpperCase(),
             imageUrl: details.sprites.front_default,
             url: pokemon.url,
             types: translatedTypes.join(', '),
