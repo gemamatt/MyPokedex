@@ -42,11 +42,17 @@ const PokemonList = ({ navigation, lang }) => {
           };
         })
       );
-      
+
+      const uniquePokemon = [
+        ...new Map(pokemonDetails.map((item) => [item.id, item])).values(),
+      ];
+
       if (page === 0) {
-        setPokemonData(pokemonDetails);
+        setPokemonData(uniquePokemon);
       } else {
-        setPokemonData(prev => [...prev, ...pokemonDetails]);
+        setPokemonData((prev) => [
+          ...new Map([...prev, ...uniquePokemon].map((item) => [item.id, item])).values(),
+        ]);
       }
 
     } catch (err) {
@@ -84,7 +90,7 @@ const PokemonList = ({ navigation, lang }) => {
   return (
     <FlatList
       data={pokemonData}
-      keyExtractor={(item) => item.id.toString()}
+      keyExtractor={(item) => `${item.id}-${item.name}`}
       renderItem={({ item }) => (
         <TouchableOpacity onPress={() => navigation.navigate('PokemonDetail', { url: item.url })}>
           <View style={styles.card}>
